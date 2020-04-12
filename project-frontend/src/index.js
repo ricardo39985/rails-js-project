@@ -1,6 +1,12 @@
-console.log("testing...")
-// test that we can get data from the backend
-const BACKEND_URL = 'http://localhost:30001';
-fetch(`${BACKEND_URL}/test`)
-  .then(response => response.json())
-  .then(parsedResponse => console.log(parsedResponse));
+console.log("testing...");
+document.addEventListener("DOMContentLoaded", function () {
+  renderLanding()
+  
+});
+function renderLanding() {
+	document.getElementById("main").innerHTML = ` <button id = "login">Login</button> 
+  <button id ="signup">Signup</button>`;
+  document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', (e)=> console.log(e.target.innerText))
+  });
+}
