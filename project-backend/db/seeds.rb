@@ -16,3 +16,12 @@ require 'faker'
     name: Faker::Games::Pokemon.name
   )
 end
+Watchlist.all.each do |watchlist|
+  20.times do
+    watchlist.stocks << Stock.create(
+      ticker: Faker::Alphanumeric.alpha(number: 3),
+      company: Faker::Company.bs
+    )
+    watchlist.save
+  end
+end
