@@ -7,12 +7,12 @@ class WatchlistsController < ApplicationController
   def index
     @watchlists = Watchlist.all
 
-    render json: @watchlists.as_json(only: %i[name])
+    render json: @watchlists.as_json(only: %i[name], include:{stocks:{only: %i[ticker company]}})
   end
 
   # GET /watchlists/1
   def show
-    render json: @watchlist.as_json(only: %i[name])
+    render json: @watchlist.as_json(only: %i[name], include:{stocks:{only: %i[ticker company]}})
   end
 
   # POST /watchlists
@@ -52,4 +52,3 @@ class WatchlistsController < ApplicationController
     params.require(:watchlist).permit(:name)
   end
 end
-
