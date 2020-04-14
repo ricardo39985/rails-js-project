@@ -52,4 +52,3 @@ class StocksController < ApplicationController
     params.require(:stock).permit(:ticker, :company, :price)
   end
 end
-git add app/controllers/stocks_controller.rb app/models/stock.rb app/models/stock_watchlist.rb && git commit -m "Updated controller to customize rendering. Fixed associations in Stock model"
