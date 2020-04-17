@@ -7,12 +7,12 @@ class WatchlistsController < ApplicationController
   def index
     @watchlists = Watchlist.all
 
-    render json: @watchlists.as_json(only: %i[name], include:{stocks:{only: %i[ticker company]}})
+    render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company] } })
   end
 
   # GET /watchlists/1
   def show
-    render json: @watchlist.as_json(only: %i[name], include:{stocks:{only: %i[ticker company]}})
+    render json: @watchlist.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company] } })
   end
 
   # POST /watchlists
@@ -37,14 +37,15 @@ class WatchlistsController < ApplicationController
 
   # DELETE /watchlists/1
   def destroy
-    @watchlist.destroy
+    # byebug
+    @watchlist&.delete
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_watchlist
-    @watchlist = Watchlist.find(params[:id])
+    @watchlist = Watchlist.find_by(id: params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
