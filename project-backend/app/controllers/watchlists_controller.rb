@@ -18,7 +18,7 @@ class WatchlistsController < ApplicationController
   # POST /watchlists
   def create
     @watchlist = Watchlist.new(watchlist_params)
-
+    
     if @watchlist.save
       render json: @watchlist, status: :created, location: @watchlist
     else
