@@ -37,7 +37,7 @@ async function makeWatchlist(event) {
 	});
 	let wl = await res.json();
 	let newWachlist = new Watchlist(wl);
-	insertNewWatchlist(newWachlist);
+	insertNewWatchlist.call(newWachlist);
 }
 // Insert watchlist returned by backend into the DOM
 function insertNewWatchlist() {
@@ -63,8 +63,10 @@ function deleteListener(id) {
 				headers: {
 					Accept: "Application/json",
 					"Content-Type": "Application/json",
-				},
+				}
 			});
+			// let data = await res.json()
+			// console.log(data)
 			document.getElementById(`watchlist-item-${id}`).remove();
 		});
 	colorDelete(id);
