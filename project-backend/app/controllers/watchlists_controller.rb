@@ -18,9 +18,14 @@ class WatchlistsController < ApplicationController
   # POST /watchlists
   def create
     @watchlist = Watchlist.new(watchlist_params)
-    
+    5.times do
+      @watchlist.stocks.build(ticker: Faker::Alphanumeric.alpha(number: 3),
+                              company: Faker::Company.bs)
+    end
+    # byebug
+
     if @watchlist.save
-      render json: @watchlist, status: :created, location: @watchlist
+      render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company] } })
     else
       render json: @watchlist.errors, status: :unprocessable_entity
     end
@@ -38,7 +43,8 @@ class WatchlistsController < ApplicationController
   # DELETE /watchlists/1
   def destroy
     # byebug
-    @watchlist&.delete
+    # @watchlist.stocks.delete
+    @watchlist&.destroy
   end
 
   private
