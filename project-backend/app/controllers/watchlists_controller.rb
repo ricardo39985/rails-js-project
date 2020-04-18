@@ -42,8 +42,7 @@ class WatchlistsController < ApplicationController
 
   # DELETE /watchlists/1
   def destroy
-    # byebug
-    # @watchlist.stocks.delete
+    
     @watchlist&.destroy
   end
 
