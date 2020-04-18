@@ -67,10 +67,10 @@ function deleteListener(id) {
 			});
 			document.getElementById(`watchlist-item-${id}`).remove();
 		});
-	colorDelete(id);
+	colorDeleteWatchList(id);
 }
 
-function colorDelete(id) {
+function colorDeleteWatchList(id) {
 	document.querySelector(`.delete-${id}`).addEventListener("mouseover", (e) => {
 		document.querySelector(`.delete-${id}`).style.backgroundColor = "red";
 	});
@@ -124,6 +124,8 @@ function renderAllStocks() {
 		// debugger
 		
 		renderStock(stock, id)
+		colorDelete(stock, id)
+		debugger
 	});
 	// debugger
 }
@@ -131,9 +133,22 @@ function renderStock(stock, id) {
 	document.getElementById(`stock-div-${id}`).innerHTML += ` <div id="div-${
 		id + stock.ticker
 	}">
-		<h3>Company: ${stock.company}</h3>
-		<h3>Ticker:${stock.company}</h3>
-		<button id="delete-${id + stock.ticker}"> Delete</button>
-	</div>`;
+	<h3>Company: ${stock.company}</h3>
+	<h3>Ticker: ${stock.ticker}</h3>
+	<button id="delete-${id + stock.ticker}"> Delete</button>
+</div>`;
+	
 	document.getElementById(`div-${id + stock.ticker}`).style.textTransform = "capitalize"
+}
+function colorDelete(stock, id) {
+	// debugger
+	document.getElementById(`delete-${id + stock.ticker}`).addEventListener("mouseover", (e) => {
+		console.log(`hovered`)
+		document.getElementById(`delete-${id + stock.ticker}`).style.backgroundColor = "red";
+	});
+	document
+		.getElementById(`delete-${id + stock.ticker}`)
+		.addEventListener("mouseleave", (e) => {
+			document.getElementById(`delete-${id + stock.ticker}`).style.backgroundColor = "";
+		});
 }
