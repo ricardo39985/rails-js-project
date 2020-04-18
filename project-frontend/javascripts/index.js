@@ -11,9 +11,7 @@ async function pullWatchlists() {
 	main.innerHTML += `  <ul id="list"></ul>`;
 	lists.forEach((list) => {
 		let item = new Watchlist(list);
-		console.log(item, list)
-	
-		insertNewWatchlist(item, list.id);
+		insertNewWatchlist.call(item);
 	});
 	document
 		.getElementById("new-watchlist-form")
@@ -38,51 +36,63 @@ async function makeWatchlist(event) {
 		body: JSON.stringify(watchlistParams),
 	});
 	let wl = await res.json();
-	insertNewWatchlist(wl);
+	let newWachlist = new Watchlist(wl);
+	insertNewWatchlist(newWachlist);
 }
+// Insert watchlist returned by backend into the DOM
+function insertNewWatchlist() {
+	console.log(this);
+	main.insertAdjacentHTML("afterend", ` <div id = "lists-in-watchlist"></div>`);
 
-function insertNewWatchlist(val, id) {
-	main.insertAdjacentHTML('afterend',` <div id = "lists-in-watchlist"></div>`)
-	
 	document.getElementById("name").value = "";
-	document.getElementById("list").insertAdjacentHTML(
-		"afterbegin",
-		`<div id="watchlist-item-${id}">
-        <button id = "${id}"style="width: 15%;">
-		<h5>${val.name}</h5>
-        </button><br><button class = "delete-${id}">delete</button>
-		</div>`
-		);
-		attatchButtonListener(id)
-		deleteListener(id)
+	document
+		.getElementById("list")
+		.insertAdjacentHTML("afterbegin", this.renderdiv());
+	attatchButtonListener(this.id);
+	deleteListener(this.id);
+	addClickForList.call(this)
 }
 
 // Delete call to backend to remove watchlist
 function deleteListener(id) {
-	document.querySelector(`.delete-${id}`).addEventListener('click', async function () {
-		let res = await fetch(`http://localhost:30001/watchlists/${id}`, {
-			method: "DELETE",
-			headers: {
-				Accept: "Application/json",
-				"Content-Type": "Application/json",
-			}
+	document
+		.querySelector(`.delete-${id}`)
+		.addEventListener("click", async function () {
+			let res = await fetch(`http://localhost:30001/watchlists/${id}`, {
+				method: "DELETE",
+				headers: {
+					Accept: "Application/json",
+					"Content-Type": "Application/json",
+				},
+			});
+			document.getElementById(`watchlist-item-${id}`).remove();
 		});
-		document.getElementById(`watchlist-item-${id}`).remove()
-	})
+	colorDelete(id);
 }
+
+function colorDelete(id) {
+	document.querySelector(`.delete-${id}`).addEventListener("mouseover", (e) => {
+		document.querySelector(`.delete-${id}`).style.color = "red";
+		document.querySelector(`.delete-${id}`).style.scale = 1.5;
+	});
+	document
+		.querySelector(`.delete-${id}`)
+		.addEventListener("mouseleave", (e) => {
+			document.querySelector(`.delete-${id}`).style.color = "";
+		});
+}
+
 function attatchButtonListener(id) {
-	document.getElementById(`${id}`).addEventListener('click',async function () {
+	document.getElementById(`${id}`).addEventListener("click", async function () {
 		let data = await fetch(`http://localhost:30001/watchlists/${id}`);
 		let lists = await data.json();
-		let list = document.createElement('div', { id : 'watchlist-stocks' })
+		let list = document.createElement("div", { id: "watchlist-stocks" });
 		if (list.stocks > 0) {
-			lists.stocks.forEach(stock => {
-				list.innerHTML+= `<div><h4 id="">${stock.ticker}</h4></div>`
-			})
-			
+			lists.stocks.forEach((stock) => {
+				list.innerHTML += `<div><h4 id="">${stock.ticker}</h4></div>`;
+			});
 		}
-		
-	})
+	});
 }
 
 function attatchForm() {
@@ -93,4 +103,15 @@ function attatchForm() {
 		<input type="submit" value = "Create Watchlist" id="">
 	</div>
 </form>`;
+}
+
+function addClickForList() {
+	console.log(`click`, this);
+	document.getElementById(`h5-${this.id}`).addEventListener(`click`, () => {
+		main.innerHTML = `<div>
+		<div>${this.name}</div>
+		<div>
+		</div>
+	</div>`;
+	});
 }
