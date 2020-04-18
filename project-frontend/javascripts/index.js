@@ -50,7 +50,7 @@ function insertNewWatchlist() {
 		.insertAdjacentHTML("afterbegin", this.renderdiv());
 	attatchButtonListener(this.id);
 	deleteListener(this.id);
-	addClickForList.call(this)
+	addClickForList.call(this);
 }
 
 // Delete call to backend to remove watchlist
@@ -63,10 +63,8 @@ function deleteListener(id) {
 				headers: {
 					Accept: "Application/json",
 					"Content-Type": "Application/json",
-				}
+				},
 			});
-			// let data = await res.json()
-			// console.log(data)
 			document.getElementById(`watchlist-item-${id}`).remove();
 		});
 	colorDelete(id);
@@ -74,13 +72,12 @@ function deleteListener(id) {
 
 function colorDelete(id) {
 	document.querySelector(`.delete-${id}`).addEventListener("mouseover", (e) => {
-		document.querySelector(`.delete-${id}`).style.color = "red";
-		document.querySelector(`.delete-${id}`).style.scale = 1.5;
+		document.querySelector(`.delete-${id}`).style.backgroundColor = "red";
 	});
 	document
 		.querySelector(`.delete-${id}`)
 		.addEventListener("mouseleave", (e) => {
-			document.querySelector(`.delete-${id}`).style.color = "";
+			document.querySelector(`.delete-${id}`).style.backgroundColor = "";
 		});
 }
 
@@ -91,7 +88,7 @@ function attatchButtonListener(id) {
 		let list = document.createElement("div", { id: "watchlist-stocks" });
 		if (list.stocks > 0) {
 			lists.stocks.forEach((stock) => {
-				list.innerHTML += `<div><h4 id="">${stock.ticker}</h4></div>`;
+				list.innerHTML += `<div><h4 id="">${stock.company}</h4></div>`;
 			});
 		}
 	});
@@ -112,8 +109,31 @@ function addClickForList() {
 	document.getElementById(`h5-${this.id}`).addEventListener(`click`, () => {
 		main.innerHTML = `<div>
 		<div>${this.name}</div>
-		<div>
+		<div id = "stock-div-${this.id}">
 		</div>
 	</div>`;
+		renderAllStocks.call(this);
 	});
+	let wId = this.id;
+	// debugger
+}
+function renderAllStocks() {
+	let stocks = this.stocks;
+	let id = this.id;
+	stocks.forEach((stock) => {
+		// debugger
+		
+		renderStock(stock, id)
+	});
+	// debugger
+}
+function renderStock(stock, id) {
+	document.getElementById(`stock-div-${id}`).innerHTML += ` <div id="div-${
+		id + stock.ticker
+	}">
+		<h3>Company: ${stock.company}</h3>
+		<h3>Ticker:${stock.company}</h3>
+		<button id="delete-${id + stock.ticker}"> Delete</button>
+	</div>`;
+	document.getElementById(`div-${id + stock.ticker}`).style.textTransform = "capitalize"
 }
