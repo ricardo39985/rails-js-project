@@ -40,7 +40,7 @@ class StocksController < ApplicationController
 
   # DELETE /stocks/1
   def destroy
-    @stock.destroy
+    @stock&.destroy
   end
 
   private

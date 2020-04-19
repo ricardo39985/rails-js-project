@@ -7,12 +7,12 @@ class WatchlistsController < ApplicationController
   def index
     @watchlists = Watchlist.all
 
-    render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company] } })
+    render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
   end
 
   # GET /watchlists/1
   def show
-    render json: @watchlist.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company] } })
+    render json: @watchlist.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
   end
 
   # POST /watchlists
@@ -25,7 +25,7 @@ class WatchlistsController < ApplicationController
     # byebug
 
     if @watchlist.save
-      render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company] } })
+      render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
     else
       render json: @watchlist.errors, status: :unprocessable_entity
     end
