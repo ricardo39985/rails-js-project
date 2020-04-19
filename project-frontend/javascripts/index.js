@@ -108,7 +108,14 @@ function attatchForm() {
 function addClickForList() {
 	console.log(`click`, this);
 	document.getElementById(`h5-${this.id}`).addEventListener(`click`, () => {
-		main.innerHTML = `<div>
+		main.innerHTML= `<form id="new-watchlist-form" action="" method="post">
+		<div>
+			<label for="name">Name</label><br>
+			<input type="text" name = "name" id="name"><br>
+			<input type="submit" value = "Add Stock To Watchlist" id="">
+		</div>
+	</form>`
+		main.innerHTML += `<div>
 		<div>${this.name}</div>
 		<div id = "stock-div-${this.id}">
 		</div>
@@ -138,6 +145,7 @@ function renderStock(stock, id) {
 	}">
 	<h3>Company: ${stock.company}</h3>
 	<h3>Ticker: ${stock.ticker}</h3>
+	<h3>price: $${stock.price}</h3>
 	<button class = "delete-stock" id="${stock.id}"> Delete</button>
 </div>`;
 	
