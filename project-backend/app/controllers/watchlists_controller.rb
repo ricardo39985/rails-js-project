@@ -7,7 +7,7 @@ class WatchlistsController < ApplicationController
   def index
     @watchlists = Watchlist.all
 
-    render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
+    render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id price] } })
   end
 
   # GET /watchlists/1
@@ -20,13 +20,13 @@ class WatchlistsController < ApplicationController
     @watchlist = Watchlist.new(watchlist_params)
     5.times do
       @watchlist.stocks.build(ticker: Faker::Alphanumeric.alpha(number: 3),
-                              company: Faker::Company.bs)
+                              company: Faker::Company.bs, price: Faker::Number.between(from: 1, to: 10))
     end
     # byebug
 
     if @watchlist.save
       # byebug
-      render json: @watchlist.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
+      render json: @watchlist.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id price] } })
     else
       render json: @watchlist.errors, status: :unprocessable_entity
     end
