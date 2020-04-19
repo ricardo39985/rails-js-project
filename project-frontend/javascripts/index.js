@@ -33,11 +33,11 @@ async function makeWatchlist(event) {
 			Accept: "Application/json",
 			"Content-Type": "Application/json",
 		},
-		body: JSON.stringify(watchlistParams),
+		body: JSON.stringify(watchlistParams)
 	});
 	let wl = await res.json();
 	let newWachlist = new Watchlist(wl);
-	console.log(newWachlist)
+
 	insertNewWatchlist.call(newWachlist);
 }
 // Insert watchlist returned by backend into the DOM
