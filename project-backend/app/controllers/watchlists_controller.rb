@@ -25,7 +25,8 @@ class WatchlistsController < ApplicationController
     # byebug
 
     if @watchlist.save
-      render json: @watchlists.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
+      # byebug
+      render json: @watchlist.as_json(only: %i[name id], include: { stocks: { only: %i[ticker company id] } })
     else
       render json: @watchlist.errors, status: :unprocessable_entity
     end
