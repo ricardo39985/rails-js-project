@@ -37,10 +37,11 @@ async function makeWatchlist(event) {
 	});
 	let wl = await res.json();
 	let newWachlist = new Watchlist(wl);
+	console.log(newWachlist)
 	insertNewWatchlist.call(newWachlist);
 }
 // Insert watchlist returned by backend into the DOM
-function insertNewWatchlist() {
+async function insertNewWatchlist() {
 	console.log(this);
 	main.insertAdjacentHTML("afterend", ` <div id = "lists-in-watchlist"></div>`);
 
@@ -124,9 +125,11 @@ function renderAllStocks() {
 		// debugger
 		
 		renderStock(stock, id)
-		colorDelete(stock, id)
-		debugger
+		// debugger
 	});
+	addRedButton()
+	addClickListener()
+
 	// debugger
 }
 function renderStock(stock, id) {
@@ -135,20 +138,45 @@ function renderStock(stock, id) {
 	}">
 	<h3>Company: ${stock.company}</h3>
 	<h3>Ticker: ${stock.ticker}</h3>
-	<button id="delete-${id + stock.ticker}"> Delete</button>
+	<button class = "delete-stock" id="${stock.id}"> Delete</button>
 </div>`;
 	
 	document.getElementById(`div-${id + stock.ticker}`).style.textTransform = "capitalize"
 }
-function colorDelete(stock, id) {
-	// debugger
-	document.getElementById(`delete-${id + stock.ticker}`).addEventListener("mouseover", (e) => {
-		console.log(`hovered`)
-		document.getElementById(`delete-${id + stock.ticker}`).style.backgroundColor = "red";
-	});
-	document
-		.getElementById(`delete-${id + stock.ticker}`)
-		.addEventListener("mouseleave", (e) => {
-			document.getElementById(`delete-${id + stock.ticker}`).style.backgroundColor = "";
+function addRedButton() {
+	let buttons = document.querySelectorAll(`.delete-stock`)
+	for (let index = 0; index < buttons.length; index++) {
+		const element = buttons[index];
+		console.log(element)
+		element.addEventListener("mouseover", (e) => {
+			element.style.backgroundColor = "red";
 		});
+		element
+		.addEventListener("mouseleave", (e) => {
+			element.style.backgroundColor = "";
+		});
+	}
+}
+
+function addClickListener() {
+	let buttons = document.querySelectorAll(`.delete-stock`)
+	for (let index = 0; index < buttons.length; index++) {
+		const element = buttons[index];
+		console.log(element)
+		element.addEventListener("click", deleteAndUpdateDOM);
+	}
+	
+}
+
+async function deleteAndUpdateDOM(event) {
+	// debugger
+	let res = await fetch(`http://localhost:30001/stocks/${this.id}`, {
+				method: "DELETE",
+				headers: {
+					Accept: "Application/json",
+					"Content-Type": "Application/json",
+				},
+			});
+			document.getElementById(`${this.parentElement.id}`).remove();
+
 }
