@@ -11,9 +11,11 @@ class Watchlist {
 	}
 	renderdiv() {
 		return `<div id="watchlist-item-${this.id}">
-        <button id = "${this.id}"style="width: 15%;">
+		<div class="card-panel teal">
+        <button class = "waves-effect waves-light btn" id = "${this.id}"style="width: 15%;">
 		<h5 id = "h5-${this.id}">${this.name}</h5>
-        </button><br><button class = "delete-${this.id}">delete</button>
-		</div>`;
+        </button><br><button class = "delete-${this.id}">Delete</button><br>
+    </div>
+		</div><br>`;
 	}
 }
