@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://www.google.com/url?sa=i&url=https%3A%2F%2Ffreebiesupply.com%2Flogos%2Frails-logo-2%2F&psig=AOvVaw3bYgubXQnnRhwe7jfHs5Ge&ust=1587440532550000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJj_nPqK9ugCFQAAAAAdAAAAABAD" alt="Project logo"></a>
+ <img width=200px height=200px src="https://www.nicepng.com/png/full/198-1983755_rails-logo-ruby-on-rails-icon.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Rails JS Project</h3>
