@@ -18,6 +18,7 @@ class WatchlistsController < ApplicationController
   # POST /watchlists
   def create
     @watchlist = Watchlist.new(watchlist_params)
+    # Each new Watchlist is given 5 default stocks
     5.times do
       @watchlist.stocks.build(ticker: Faker::Alphanumeric.alpha(number: 3),
                               company: Faker::Company.bs, price: Faker::Number.between(from: 1, to: 10))
