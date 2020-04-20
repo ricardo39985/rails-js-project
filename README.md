@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://www.nicepng.com/png/full/198-1983755_rails-logo-ruby-on-rails-icon.png" alt="Project logo"></a>
+ <img width=200px height=200px src="project-frontend/pngguru.com.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Rails JS Project</h3>
