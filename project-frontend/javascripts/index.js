@@ -33,7 +33,7 @@ async function makeWatchlist(event) {
 			Accept: "Application/json",
 			"Content-Type": "Application/json",
 		},
-		body: JSON.stringify(watchlistParams)
+		body: JSON.stringify(watchlistParams),
 	});
 	let wl = await res.json();
 	let newWachlist = new Watchlist(wl);
@@ -43,7 +43,10 @@ async function makeWatchlist(event) {
 // Insert watchlist returned by backend into the DOM
 async function insertNewWatchlist() {
 	console.log(this);
-	main.insertAdjacentHTML("afterend", ` <div id = "lists-in-watchlist"></div>`);
+	main.insertAdjacentHTML(
+		"afterend",
+		` <div id = "lists-in-watchlist"></div><br>`
+	);
 
 	document.getElementById("name").value = "";
 	document
@@ -100,7 +103,7 @@ function attatchForm() {
 	<div>
 		<label for="name">Name</label><br>
 		<input type="text" name = "name" id="name"><br>
-		<input type="submit" value = "Create Watchlist" id="">
+		<input  type="submit" value = "Create Watchlist" id="">
 	</div>
 </form>`;
 }
@@ -108,15 +111,9 @@ function attatchForm() {
 function addClickForList() {
 	console.log(`click`, this);
 	document.getElementById(`h5-${this.id}`).addEventListener(`click`, () => {
-		main.innerHTML= `<form id="new-watchlist-form" action="" method="post">
-		<div>
-			<label for="name">Name</label><br>
-			<input type="text" name = "name" id="name"><br>
-			<input type="submit" value = "Add Stock To Watchlist" id="">
-		</div>
-	</form>`
-		main.innerHTML += `<div>
-		<div>${this.name}</div>
+	
+		main.innerHTML = `<div>
+		<h2>${this.name}</h2>
 		<div id = "stock-div-${this.id}">
 		</div>
 	</div>`;
@@ -130,12 +127,12 @@ function renderAllStocks() {
 	let id = this.id;
 	stocks.forEach((stock) => {
 		// debugger
-		
-		renderStock(stock, id)
+
+		renderStock(stock, id);
 		// debugger
 	});
-	addRedButton()
-	addClickListener()
+	addRedButton();
+	addClickListener();
 
 	// debugger
 }
@@ -147,44 +144,42 @@ function renderStock(stock, id) {
 	<h3>Ticker: ${stock.ticker}</h3>
 	<h3>price: $${stock.price}</h3>
 	<button class = "delete-stock" id="${stock.id}"> Delete</button>
-</div>`;
-	
-	document.getElementById(`div-${id + stock.ticker}`).style.textTransform = "capitalize"
+</div><br>`;
+
+	document.getElementById(`div-${id + stock.ticker}`).style.textTransform =
+		"capitalize";
 }
 function addRedButton() {
-	let buttons = document.querySelectorAll(`.delete-stock`)
+	let buttons = document.querySelectorAll(`.delete-stock`);
 	for (let index = 0; index < buttons.length; index++) {
 		const element = buttons[index];
-		console.log(element)
+		console.log(element);
 		element.addEventListener("mouseover", (e) => {
 			element.style.backgroundColor = "red";
 		});
-		element
-		.addEventListener("mouseleave", (e) => {
+		element.addEventListener("mouseleave", (e) => {
 			element.style.backgroundColor = "";
 		});
 	}
 }
 
 function addClickListener() {
-	let buttons = document.querySelectorAll(`.delete-stock`)
+	let buttons = document.querySelectorAll(`.delete-stock`);
 	for (let index = 0; index < buttons.length; index++) {
 		const element = buttons[index];
-		console.log(element)
+		console.log(element);
 		element.addEventListener("click", deleteAndUpdateDOM);
 	}
-	
 }
 
 async function deleteAndUpdateDOM(event) {
 	// debugger
 	let res = await fetch(`http://localhost:30001/stocks/${this.id}`, {
-				method: "DELETE",
-				headers: {
-					Accept: "Application/json",
-					"Content-Type": "Application/json",
-				},
-			});
-			document.getElementById(`${this.parentElement.id}`).remove();
-
+		method: "DELETE",
+		headers: {
+			Accept: "Application/json",
+			"Content-Type": "Application/json",
+		},
+	});
+	document.getElementById(`${this.parentElement.id}`).remove();
 }
