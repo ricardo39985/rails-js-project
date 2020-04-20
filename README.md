@@ -30,7 +30,7 @@
 
 ## 🧐 About <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your project.
+Built using rails as an api backend. And front end done with vanilla JS. Projects demonstrates the ability to use rails as an api
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
