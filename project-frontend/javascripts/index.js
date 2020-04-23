@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 	let main = document.getElementById("main");
-	// pullWatchlists();
 	attatchForm();
 	pullWatchlists();
+	addReorderButton();
 });
 // Call to database to get all stocks then add them to DOM
 async function pullWatchlists() {
@@ -40,9 +40,9 @@ async function makeWatchlist(event) {
 
 	insertNewWatchlist.call(newWachlist);
 }
+
 // Insert watchlist returned by backend into the DOM
 async function insertNewWatchlist() {
-	console.log(this);
 	main.insertAdjacentHTML(
 		"afterend",
 		` <div id = "lists-in-watchlist"></div><br>`
@@ -97,9 +97,40 @@ function attatchButtonListener(id) {
 		}
 	});
 }
+function insertNewWatchlistordered() {
+	console.log(this);
+	document.getElementById("lists-in-watchlist").innerHTML += this.renderdiv();
+	attatchButtonListener(this.id);
+	deleteListener(this.id);
+	addClickForList.call(this);
+}
+function addReorderButton() {
+	document.getElementById("order").addEventListener("click", (e) => {
+		let sorted = Watchlist.all.sort(function (a, b) {
+			var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+			var nameB = b.name.toUpperCase(); // ignore upper and lowercase
 
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+
+			// names must be equal
+			return 0;
+		});
+		console.log(sorted);
+		main.innerHTML = ` <div id = "lists-in-watchlist"></div><br>`;
+		sorted.forEach((list) => {
+			insertNewWatchlistordered.call(list);
+		});
+	});
+}
 function attatchForm() {
-	main.innerHTML += `<form id="new-watchlist-form" action="" method="post">
+	main.innerHTML += `
+	
+	<form id="new-watchlist-form" action="" method="post">
 	<div>
 		<label for="name">Name</label><br>
 		<input type="text" name = "name" id="name"><br>
@@ -109,9 +140,7 @@ function attatchForm() {
 }
 
 function addClickForList() {
-	console.log(`click`, this);
 	document.getElementById(`h5-${this.id}`).addEventListener(`click`, () => {
-	
 		main.innerHTML = `<div>
 		<h2>${this.name}</h2>
 		<div id = "stock-div-${this.id}">
@@ -120,21 +149,15 @@ function addClickForList() {
 		renderAllStocks.call(this);
 	});
 	let wId = this.id;
-	// debugger
 }
 function renderAllStocks() {
 	let stocks = this.stocks;
 	let id = this.id;
 	stocks.forEach((stock) => {
-		// debugger
-
 		renderStock(stock, id);
-		// debugger
 	});
 	addRedButton();
 	addClickListener();
-
-	// debugger
 }
 function renderStock(stock, id) {
 	document.getElementById(`stock-div-${id}`).innerHTML += ` <div id="div-${
@@ -153,7 +176,6 @@ function addRedButton() {
 	let buttons = document.querySelectorAll(`.delete-stock`);
 	for (let index = 0; index < buttons.length; index++) {
 		const element = buttons[index];
-		console.log(element);
 		element.addEventListener("mouseover", (e) => {
 			element.style.backgroundColor = "red";
 		});
@@ -167,13 +189,12 @@ function addClickListener() {
 	let buttons = document.querySelectorAll(`.delete-stock`);
 	for (let index = 0; index < buttons.length; index++) {
 		const element = buttons[index];
-		console.log(element);
 		element.addEventListener("click", deleteAndUpdateDOM);
 	}
 }
 
 async function deleteAndUpdateDOM(event) {
-	// debugger
+	//
 	let res = await fetch(`http://localhost:30001/stocks/${this.id}`, {
 		method: "DELETE",
 		headers: {
