@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/faker-ruby/faker.git
+  revision: 77108d0af4a2461331459a4cfc6f119eda99173b
+  branch: master
+  specs:
+    faker (2.12.0)
+      i18n (>= 1.6, < 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -195,7 +203,7 @@ GEM
       rack (>= 2.0.6)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
     yard (0.9.24)
     zeitwerk (2.3.0)
 
@@ -206,6 +214,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   devise
+  faker!
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
